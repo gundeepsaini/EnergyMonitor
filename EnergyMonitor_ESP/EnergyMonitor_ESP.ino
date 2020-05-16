@@ -150,6 +150,7 @@ struct EnergyVar2
 struct EnergyVar Energy;
 struct EnergyVar2 EnergyStartValues;
 struct OprTime MorningTimeSet, EveningTimeSet;
+struct time_struct time_now;
 
 
 

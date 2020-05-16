@@ -35,7 +35,9 @@ struct time_struct
   int yearDay;
   int weekDay;
 };
-time_struct time_now;
+
+//declare in main file
+//time_struct time_now;
 
 //--------------------------------------------------------------------------
 
