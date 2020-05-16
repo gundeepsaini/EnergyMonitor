@@ -19,7 +19,7 @@ void Fast_Loop()
 void Mid1_Loop()
 {
 	FetchEMData();
-  //EM_DayEnergy_calc();    <<--------------------------------------------------
+  EM_DayEnergy_calc();    
   EM_Data_Calc();  
   LCD_Update();
   REC_Device_Capture();
@@ -37,7 +37,7 @@ void Mid2_Loop()
 void Slow_Loop()
 {  
   LCD_backlight_check();
-  //MQTT_publish();           <<--------------------------------------------------
+  MQTT_publish();           
 
   RunOnce_30mins();
 }
@@ -45,7 +45,7 @@ void Slow_Loop()
 
 void VerySlow_Loop()
 {
-   //Blynk_Graph_DataPush();   <<--------------------------------------------------
+   Blynk_Graph_DataPush();   
 }
 
 

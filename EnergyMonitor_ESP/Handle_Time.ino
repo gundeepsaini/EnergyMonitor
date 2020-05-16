@@ -22,6 +22,7 @@ static timespec tp;
 static time_t now;
 extern "C" int clock_gettime(clockid_t unused, struct timespec *tp);
 
+/* //declare in main file
 struct time_struct
 {
   bool valid;
@@ -35,10 +36,9 @@ struct time_struct
   int yearDay;
   int weekDay;
 };
+time_struct time_now;
 
-//declare in main file
-//time_struct time_now;
-
+*/
 //--------------------------------------------------------------------------
 
 

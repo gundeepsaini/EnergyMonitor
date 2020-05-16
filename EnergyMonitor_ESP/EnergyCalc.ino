@@ -112,41 +112,44 @@ void EM_DayEnergy_calc()
  {
 
   bool timeValid = Time_NTP_updateVar();
-  int hourNow  = time_now.hr;  
-  int DayToday = time_now.day;
+  if(timeValid)
+  {
+    int hourNow  = time_now.hr;  
+    int DayToday = time_now.day;
 
-  if((hourNow == 0 && !E_Calc_Complete) || ForceEnergyStart_Update) 
-  {    
-    MQTT_publish();
-    Blynk_Graph_DataPush();
-    PIR_Reset_Flags();
+    if((hourNow == 0 && !E_Calc_Complete) || ForceEnergyStart_Update) 
+    {    
+      MQTT_publish();
+      Blynk_Graph_DataPush();
+      PIR_Reset_Flags();
 
-    EnergyStartValues.e1_DayStart = e1;
-    EnergyStartValues.e2_DayStart = e2;
-    EnergyStartValues.e3_DayStart = e3;    
+      EnergyStartValues.e1_DayStart = e1;
+      EnergyStartValues.e2_DayStart = e2;
+      EnergyStartValues.e3_DayStart = e3;    
 
-    if(DayToday == 1 || ForceEnergyStart_Update)
-      {
-        EnergyStartValues.e1_MonthStart = e1;
-        EnergyStartValues.e2_MonthStart = e2;
-        EnergyStartValues.e3_MonthStart = e3;
-      }
-      
-    Memory_Write();
-    E_Calc_Complete = 1;
-    ForceEnergyStart_Update = 0;
-  }
-  
-  if(hourNow > 0)
-    E_Calc_Complete = 0;
-  
-  Energy.e1_Today        = e1 - EnergyStartValues.e1_DayStart;
-  Energy.e2_Today        = e2 - EnergyStartValues.e2_DayStart;
-  Energy.e3_Today        = e3 - EnergyStartValues.e3_DayStart;
-  
-  Energy.e1_ThisMonth      = e1 - EnergyStartValues.e1_MonthStart;
-  Energy.e2_ThisMonth      = e2 - EnergyStartValues.e2_MonthStart;
-  Energy.e3_ThisMonth      = e3 - EnergyStartValues.e3_MonthStart;
+      if(DayToday == 1 || ForceEnergyStart_Update)
+        {
+          EnergyStartValues.e1_MonthStart = e1;
+          EnergyStartValues.e2_MonthStart = e2;
+          EnergyStartValues.e3_MonthStart = e3;
+        }
+        
+      Memory_Write();
+      E_Calc_Complete = 1;
+      ForceEnergyStart_Update = 0;
+    }
+    
+    if(hourNow > 0)
+      E_Calc_Complete = 0;
+    
+    Energy.e1_Today        = e1 - EnergyStartValues.e1_DayStart;
+    Energy.e2_Today        = e2 - EnergyStartValues.e2_DayStart;
+    Energy.e3_Today        = e3 - EnergyStartValues.e3_DayStart;
+    
+    Energy.e1_ThisMonth      = e1 - EnergyStartValues.e1_MonthStart;
+    Energy.e2_ThisMonth      = e2 - EnergyStartValues.e2_MonthStart;
+    Energy.e3_ThisMonth      = e3 - EnergyStartValues.e3_MonthStart;
+   }
  }
 }
 
@@ -195,7 +198,7 @@ void Memory_Write()
 }
 
 
-void REC_Device_Capture()
+void REC_Device_Capture()         // Future: for use with Data Analytics
 {
   if(REC_Mode)
   {

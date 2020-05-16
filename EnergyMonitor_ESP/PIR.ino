@@ -32,40 +32,44 @@ void Check_PIR_Condition()
 
   // Time Check
   bool timeValid = Time_NTP_updateVar();
-  int hr_now  = time_now.hr;
-  int mins_now  = time_now.min;
+  
+  if(timeValid)
+  {
+    int hr_now  = time_now.hr;
+    int mins_now  = time_now.min;
 
 
-    // Morning
-  if(hr_now >= MorningTimeSet.StartTime_hr && hr_now <= MorningTimeSet.StopTime_hr)
-    if(mins_now >= MorningTimeSet.StartTime_mins && mins_now <= MorningTimeSet.StopTime_mins)
+      // Morning
+    if(hr_now >= MorningTimeSet.StartTime_hr && hr_now <= MorningTimeSet.StopTime_hr)
+      if(mins_now >= MorningTimeSet.StartTime_mins && mins_now <= MorningTimeSet.StopTime_mins)
+          {
+            if(Enable_Morning)  
+              PIR_Time_OK = true;
+            if(!MorningTrigger)
+              Trigger_OK = true;
+          }
+
+    // Evening
+    if(hr_now >= EveningTimeSet.StartTime_hr && hr_now <= EveningTimeSet.StopTime_hr)
+      if(mins_now >= EveningTimeSet.StartTime_mins && mins_now <= EveningTimeSet.StopTime_mins)
         {
-          if(Enable_Morning)  
+          if(Enable_Evening)
             PIR_Time_OK = true;
-          if(!MorningTrigger)
+          if(!EveningTrigger)
             Trigger_OK = true;
         }
 
-  // Evening
-  if(hr_now >= EveningTimeSet.StartTime_hr && hr_now <= EveningTimeSet.StopTime_hr)
-    if(mins_now >= EveningTimeSet.StartTime_mins && mins_now <= EveningTimeSet.StopTime_mins)
-      {
-        if(Enable_Evening)
-          PIR_Time_OK = true;
-        if(!EveningTrigger)
-          Trigger_OK = true;
-      }
 
 
+    // Misc
+    Other_OK = true;
 
-  // Misc
-  Other_OK = true;
 
-
-  PIR_IFTTT_Ready = PIR_Time_OK &&
-                    Trigger_OK &&
-                    Other_OK;
-
+    PIR_IFTTT_Ready = PIR_Time_OK &&
+                      Trigger_OK &&
+                      Other_OK;
+  
+  }
 }
 
 
@@ -91,8 +95,8 @@ void PIR_IFTTT_POST()
 
   if(POST_Status)
     {
-      unsigned long epoch = timeClient.getEpochTime();
-      int hr_now  = hour(epoch);
+      bool timeValid = Time_NTP_updateVar();
+      int hr_now  = time_now.hr;  
       
       if(hr_now >= MorningTimeSet.StartTime_hr && hr_now <= MorningTimeSet.StopTime_hr)
           {
@@ -110,8 +114,8 @@ void PIR_IFTTT_POST()
     if(updateTerminal) 
     { 
       terminal.println();
-      terminal.print(timeClient.getFormattedTime());
-      terminal.print(" - IFTT - ");
+      //terminal.println(timeClient.getFormattedTime());
+      terminal.print("IFTT - ");
       if(POST_Status)
           terminal.print("success");
       else

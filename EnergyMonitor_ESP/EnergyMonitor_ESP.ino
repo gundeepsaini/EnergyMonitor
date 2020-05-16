@@ -150,8 +150,20 @@ struct EnergyVar2
 struct EnergyVar Energy;
 struct EnergyVar2 EnergyStartValues;
 struct OprTime MorningTimeSet, EveningTimeSet;
-struct time_struct time_now;
-
+struct time_struct
+{
+  bool valid;
+  bool DST;  
+  int hr;
+  int min;
+  int sec;
+  int day;
+  int month;
+  int year;
+  int yearDay;
+  int weekDay;
+};
+time_struct time_now;
 
 
 //------------------------------------------------------------

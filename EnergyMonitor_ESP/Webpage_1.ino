@@ -14,17 +14,6 @@ void Prep_webpage1()
   time(&now1);
   String timeStr = String(ctime(&now1));
 
-  //temp code <<--------------------------------------------------
-  Time_NTP_updateVar();
-  v_avg = time_now.hr
-  i_sum = time_now.min
-  p_sum = time_now.sec
-  e_sum_Today = time_now.year
-  e_sum_ThisMonth = time_now.month
-  pf_avg = time_now.day
-  v1 = time_now.DST
-  v2 = time_now.valid
-
     // !!! ELements that don't change !!!
   String page_head ="<!DOCTYPE html><html><head><style>td,th{ border: 1px solid #dddddd; text-align: left; padding: 8px;} tr:nth-child(even){background-color: #dddddd;}</style></head>";
   String body_start = "<body>";
