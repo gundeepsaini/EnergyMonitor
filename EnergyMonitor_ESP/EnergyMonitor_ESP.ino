@@ -25,8 +25,9 @@ Changes:
   - 16.05.2020
     Created separate Github Project, removed version numbers
     Changed time handling to include DST effects (day light saving)    
-    Minor code standardization     
-    Photos/Videos to be added
+    Minor code standardization
+    Motion Sensor (PIR) changed to independent MQTT device within EnergyMonitor (handled in NodeRed)  
+    TODO: Photos/Videos to be added
 
   - 22.03.2020
     Updated code and moved to Github
