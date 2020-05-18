@@ -256,3 +256,57 @@ bool MQTT_hasValueChanged(float newValue, float prevValue, float maxDiff)
 }
 
 
+
+
+//-------------------- PIR MQTT -----------------------------
+
+// Motion Sensor
+#define MQTT_CONFIG_PIR        "homeassistant/sensor/PIR/Lobby/config"
+#define MQTT_TOPIC_STATE_PIR   "homeassistant/sensor/PIR/Lobby/state"
+
+unsigned long MQTT_PIR_heartbeat_timestamp;
+unsigned long MQTT_PIR_last_ON_msg_timestamp;
+bool MQTT_PIR_last_ON_msg_state;
+
+
+
+void MQTT_publish_PIR(bool PIR_State)
+{   
+    if(PIR_State)
+      client.publish(MQTT_TOPIC_STATE_PIR, "ON", true);
+    else
+      client.publish(MQTT_TOPIC_STATE_PIR, "OFF", true);
+    //Serial.println(data);
+}
+
+
+bool MQTT_PIR_send_again_check(bool PIR_State)
+{
+  // higher priority to time compared to state change, 
+  //  i.e. module will wait for time delay (e.g. 30sec) before sending a message again even 
+  //       if the state has changed during the delay period
+
+  if(millis()/1000 - MQTT_PIR_last_ON_msg_timestamp > 30)  // Atleast 30 sec have passsed since last transmission
+  {
+    //if(PIR_State != MQTT_PIR_last_ON_msg_state)
+      {
+        MQTT_PIR_last_ON_msg_state = PIR_State;
+        MQTT_PIR_last_ON_msg_timestamp = millis()/1000;
+        MQTT_PIR_heartbeat_timestamp = millis()/1000;
+
+        return true;
+      }    
+  }
+  return false;
+}
+
+
+// Acts as heartbeat and also sends zero state (no motion) 
+void MQTT_PIR_heartbeat()
+{
+  if(millis()/1000 - MQTT_PIR_heartbeat_timestamp > 60 || MQTT_PIR_heartbeat_timestamp==0)  // send every 60 sec
+  {
+    MQTT_PIR_heartbeat_timestamp = millis()/1000;
+    MQTT_publish_PIR(false);
+  }
+}
