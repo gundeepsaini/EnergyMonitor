@@ -68,6 +68,8 @@ void MQTT_publish()
       serializeJson(doc, data, sizeof(data));
       client.publish(MQTT_TOPIC_STATE, data, true);
       Serial.println(data);
+
+      MQTT_publish_Deep_Dive();
 }
 
 
@@ -309,4 +311,30 @@ void MQTT_PIR_heartbeat()
     MQTT_PIR_heartbeat_timestamp = millis()/1000;
     MQTT_publish_PIR(false);
   }
+}
+
+
+
+
+//-------------------- Device Analytics -----------------------------
+
+#define MQTT_TOPIC_STATE_DEEP_DIVE   "homeassistant/Analytics/Power/state"
+
+void MQTT_publish_Deep_Dive()
+{   
+      // Use arduinojson.org/v6/assistant to compute the capacity.
+      const size_t capacity = JSON_OBJECT_SIZE(3);
+      DynamicJsonDocument doc(capacity);
+      
+      doc["P1"]     = String(p1);
+      doc["P2"]     = String(p2);
+      doc["P3"]     = String(p3);
+      doc["PF1"]    = String(pf1);
+      doc["PF2"]    = String(pf2);
+      doc["PF3"]    = String(pf3);
+      
+      char data[256];
+      serializeJson(doc, data, sizeof(data));
+      client.publish(MQTT_TOPIC_STATE_DEEP_DIVE, data, true);
+      Serial.println(data);
 }
