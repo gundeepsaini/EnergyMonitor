@@ -82,16 +82,16 @@ void MQTT_reconnect()
       Serial.println("MQTT reconnecting");
       if (client.connect(DeviceHostName, mqtt_user, mqtt_password)) 
       {
-        MQTT_publish_config_Vavg();
-        MQTT_publish_config_Isum();
-        MQTT_publish_config_Psum();
-        MQTT_publish_config_Etoday();
-        MQTT_publish_config_Emonth();
-        MQTT_publish_config_Etotal();
-        MQTT_publish_config_PF();
-        MQTT_publish_config_FREQ();
+        //MQTT_publish_config_Vavg();
+        //MQTT_publish_config_Isum();
+        //MQTT_publish_config_Psum();
+        //MQTT_publish_config_Etoday();
+        //MQTT_publish_config_Emonth();
+        //MQTT_publish_config_Etotal();
+        //MQTT_publish_config_PF();
+        //MQTT_publish_config_FREQ();
 
-        client.subscribe("inTopic");
+        //client.subscribe("inTopic");
         Serial.println("MQTT connected");
       }
       lastReconnectAttempt = millis()/1000;
@@ -323,7 +323,7 @@ void MQTT_PIR_heartbeat()
 void MQTT_publish_Deep_Dive()
 {   
       // Use arduinojson.org/v6/assistant to compute the capacity.
-      const size_t capacity = JSON_OBJECT_SIZE(3);
+      const size_t capacity = JSON_OBJECT_SIZE(10);
       DynamicJsonDocument doc(capacity);
       
       doc["P1"]     = String(p1);
