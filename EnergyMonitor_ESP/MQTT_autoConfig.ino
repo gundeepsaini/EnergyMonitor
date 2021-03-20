@@ -28,7 +28,13 @@ const char* mqtt_password   = SECRET_MQTT_Pass;
 #define MQTT_CONFIG_PF        "homeassistant/sensor/EnergyMonitor/PF/config"
 #define MQTT_CONFIG_FREQ      "homeassistant/sensor/EnergyMonitor/FREQ/config"
 
-#define MQTT_TOPIC_STATE      "homeassistant/sensor/EnergyMonitor/state"
+#define MQTT_TOPIC_STATE      "HA/EnergyMonitor/state"
+
+
+// Will Topic - Availability
+#define MQTT_TOPIC_WILL       "HA/EnergyMonitor/status"     
+#define MQTT_OFFLINE          "Offline"
+#define MQTT_ONLINE           "Active"
 
 
 /**************** External Functions ************************************/
@@ -80,7 +86,9 @@ void MQTT_reconnect()
   if (millis()/1000 - lastReconnectAttempt > 30 || lastReconnectAttempt == 0) 
   {
       Serial.println("MQTT reconnecting");
-      if (client.connect(DeviceHostName, mqtt_user, mqtt_password)) 
+      
+      //boolean connect (clientID, [username, password], [willTopic, willQoS, willRetain, willMessage], [cleanSession])
+      if (client.connect(DeviceHostName, mqtt_user, mqtt_password, MQTT_TOPIC_WILL, 1, true, MQTT_OFFLINE)) 
       {
         //MQTT_publish_config_Vavg();
         //MQTT_publish_config_Isum();
@@ -90,10 +98,11 @@ void MQTT_reconnect()
         //MQTT_publish_config_Etotal();
         //MQTT_publish_config_PF();
         //MQTT_publish_config_FREQ();
+        //client.subscribe("inTopic"); 
 
-        //client.subscribe("inTopic");
         Serial.println("MQTT connected");
-      }
+        client.publish(MQTT_TOPIC_WILL, MQTT_ONLINE, true);
+      }      
       lastReconnectAttempt = millis()/1000;
   }
 }

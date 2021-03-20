@@ -22,6 +22,9 @@ To-Do:
  
 
 Changes:
+  - 2021.03.20:
+    Added MQTT device status - last will
+
   - 16.05.2020
     Created separate Github Project, removed version numbers
     Changed time handling to include DST effects (day light saving)    
