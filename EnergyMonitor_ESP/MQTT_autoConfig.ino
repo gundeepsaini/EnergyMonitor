@@ -28,7 +28,14 @@ const char* mqtt_password   = SECRET_MQTT_Pass;
 #define MQTT_CONFIG_PF        "homeassistant/sensor/EnergyMonitor/PF/config"
 #define MQTT_CONFIG_FREQ      "homeassistant/sensor/EnergyMonitor/FREQ/config"
 
-#define MQTT_TOPIC_STATE      "HA/EnergyMonitor/state"
+// Motion Sensor
+#define MQTT_CONFIG_PIR        "homeassistant/sensor/PIR/Lobby/config"
+#define MQTT_TOPIC_STATE_PIR         "HA/EnergyMonitor/PIRstate"
+
+
+#define MQTT_TOPIC_STATE             "HA/EnergyMonitor/state"
+#define MQTT_TOPIC_STATE_DEEP_DIVE   "HA/EnergyMonitor/state2"   // old "homeassistant/Analytics/Power/state"
+
 
 
 // Will Topic - Availability
@@ -271,9 +278,6 @@ bool MQTT_hasValueChanged(float newValue, float prevValue, float maxDiff)
 
 //-------------------- PIR MQTT -----------------------------
 
-// Motion Sensor
-#define MQTT_CONFIG_PIR        "homeassistant/sensor/PIR/Lobby/config"
-#define MQTT_TOPIC_STATE_PIR   "homeassistant/sensor/PIR/Lobby/state"
 
 unsigned long MQTT_PIR_heartbeat_timestamp;
 unsigned long MQTT_PIR_last_ON_msg_timestamp;
@@ -327,7 +331,6 @@ void MQTT_PIR_heartbeat()
 
 //-------------------- Device Analytics -----------------------------
 
-#define MQTT_TOPIC_STATE_DEEP_DIVE   "homeassistant/Analytics/Power/state"
 
 void MQTT_publish_Deep_Dive()
 {   
