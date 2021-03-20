@@ -27,14 +27,12 @@ const char* mqtt_password   = SECRET_MQTT_Pass;
 #define MQTT_CONFIG_Etotal    "homeassistant/sensor/EnergyMonitor/Etotal/config"
 #define MQTT_CONFIG_PF        "homeassistant/sensor/EnergyMonitor/PF/config"
 #define MQTT_CONFIG_FREQ      "homeassistant/sensor/EnergyMonitor/FREQ/config"
-
-// Motion Sensor
 #define MQTT_CONFIG_PIR        "homeassistant/sensor/PIR/Lobby/config"
-#define MQTT_TOPIC_STATE_PIR         "HA/Lobby/PIR/state"
 
 
 #define MQTT_TOPIC_STATE             "HA/Lobby/Energy/state1"
 #define MQTT_TOPIC_STATE_DEEP_DIVE   "HA/Lobby/Energy/state2"   // old "homeassistant/Analytics/Power/state"
+#define MQTT_TOPIC_STATE_PIR         "HA/Lobby/PIR/state"
 
 
 
