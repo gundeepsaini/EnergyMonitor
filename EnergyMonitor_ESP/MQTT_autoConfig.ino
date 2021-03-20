@@ -39,7 +39,7 @@ const char* mqtt_password   = SECRET_MQTT_Pass;
 
 
 // Will Topic - Availability
-#define MQTT_TOPIC_WILL       "HA/EnergyMonitor/status"     
+#define MQTT_TOPIC_WILL       "HA/Lobby/status"     
 #define MQTT_OFFLINE          "Offline"
 #define MQTT_ONLINE           "Active"
 
