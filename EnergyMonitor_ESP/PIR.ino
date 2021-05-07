@@ -20,8 +20,8 @@ void PIR_Check()
   { 
     LCD_backlight_ON();
     
-    if(PIR_IFTTT_Ready)
-        PIR_IFTTT_POST();
+    //if(PIR_IFTTT_Ready)    // disabled
+        //PIR_IFTTT_POST();
 
     if(MQTT_PIR_send_again_check(PIR_State))
         MQTT_publish_PIR(PIR_State);

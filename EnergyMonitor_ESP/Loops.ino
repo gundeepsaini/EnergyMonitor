@@ -29,7 +29,7 @@ void Mid1_Loop()
 
 void Mid2_Loop()
 {
-  Check_PIR_Condition();
+  //Check_PIR_Condition();
   MQTT_PIR_heartbeat();
 }
 
