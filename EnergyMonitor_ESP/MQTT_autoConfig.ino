@@ -2,8 +2,9 @@
 
 /******************** LIB **************************************/
 #define MQTT_MAX_PACKET_SIZE 1024  // < ----- Change in lib: This is because the defaul maxium length is 128b. So just go to PubSubClient.h and change #define MQTT_MAX_PACKET_SIZE 128 to #define MQTT_MAX_PACKET_SIZE 1024
-#include <PubSubClient.h>
-#include <ArduinoJson.h>
+
+#include "src/pubsubclient/PubSubClient.h"
+#include "ArduinoJson.h"
 
 
 /********************* Var *************************************/
@@ -27,7 +28,7 @@ const char* mqtt_password   = SECRET_MQTT_Pass;
 #define MQTT_CONFIG_Etotal    "homeassistant/sensor/EnergyMonitor/Etotal/config"
 #define MQTT_CONFIG_PF        "homeassistant/sensor/EnergyMonitor/PF/config"
 #define MQTT_CONFIG_FREQ      "homeassistant/sensor/EnergyMonitor/FREQ/config"
-#define MQTT_CONFIG_PIR        "homeassistant/sensor/PIR/Lobby/config"
+#define MQTT_CONFIG_PIR       "homeassistant/sensor/PIR/Lobby/config"
 
 
 #define MQTT_TOPIC_STATE             "HA/Lobby/Energy/state1"

@@ -56,6 +56,7 @@ void Prep_webpage1()
   String body_table_row30 =String("<tr><td>30</td><td>Frequency P1</td><td>")       + String(f1)          + String("</td><td>hz</td></tr>");
   String body_table_row31 =String("<tr><td>31</td><td>Frequency P2</td><td>")       + String(f2)          + String("</td><td>hz</td></tr>");
   String body_table_row32 =String("<tr><td>32</td><td>Frequency P3</td><td>")       + String(f3)          + String("</td><td>hz</td></tr>");
+  String body_table_row33 =String("<tr><td>33</td><td>Motion PIR</td><td>")         + String(PIR_State)   + String("</td><td>-</td></tr>");
   
   
 
@@ -95,6 +96,7 @@ void Prep_webpage1()
   			 body_table_row30 +
   			 body_table_row31 +
   			 body_table_row32 +
+         body_table_row33 +
   			 body_end; 
          
 }

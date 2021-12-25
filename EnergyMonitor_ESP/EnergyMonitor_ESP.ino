@@ -1,15 +1,15 @@
 /*-----------------------------------------
 
-            Energy Monitor
+            Energy Monitor 
 
-Original Date: Dec 2019 (v01)
-Device: ESP8266 NodeMcU
+Original Build Date: Dec 2019 (v01)
+Device: NodeMcU v1.0 (ESP8266)
 Block Diagram & Circuit Diagram: OneNote Workbook
 
 Pin Connections:
   EM UART Arduino Rx/Tx   : 4/5
   LCD (I2C)               : 12/14
-  Push Button             : TO-DO
+  Push Button             : Future
   PIR Motion Sensor       : 13
 
 Note:
@@ -17,65 +17,32 @@ Note:
   - send "OTA" on blynk terminal to enter dedicated mode
     or navigate to "ip/OTA" for OTA through web portal
   
-To-Do:
-  - Optimze and use structures to read and store values
- 
-
-Changes:
-  - 2021.03.20:
-    Added MQTT device status - last will
-
-  - 16.05.2020
-    Created separate Github Project, removed version numbers
-    Changed time handling to include DST effects (day light saving)    
-    Minor code standardization
-    Motion Sensor (PIR) changed to independent MQTT device within EnergyMonitor (handled in NodeRed)  
-    TODO: Photos/Videos to be added
-
-  - 22.03.2020
-    Updated code and moved to Github
-    Shifted personal config data to Secret.h file
-
-  - 27.02.2020
-    Added PIR Sensor output to trigger IFTTT functions
-   
-  - 01.02.2020
-    Updated version for RPi
-    Change of webpage format to table
-        
-  - 25.01.2020
-    Energy Calculation revamped
-    LCD switched off after 1 short loop
-
-  - 13.12.2019
-    Ongoing changes
 
 ------------------------------------------- */
 
 
-/* ------------- LIB ------------------------------ */
-#include "Secrets.h"
-#include <WiFiClient.h>
+// ------------- LIB ------------------------------
 #include <ESP8266WebServer.h>
 #include <ArduinoOTA.h>
-#include <PZEM004Tv30.h>
-#include <BlynkSimpleEsp8266.h>
 #include <Wire.h> 
-#include <LiquidCrystal_I2C.h>
 #include <EEPROM.h>
-//#include <TimeLib.h>
-//#include <ESP8266WiFi.h>
-//#include <ESP8266mDNS.h>
-//#include <WiFiUdp.h>
-//#include <WidgetTimeInput.h>
-//#include <WidgetRTC.h>
+
+#include "Secrets.h"
+#include "src/PZEM004Tv30/PZEM004Tv30.h"
+#include "src/LiquidCrystal/LiquidCrystal_I2C.h"
+
+
+// ------------- Blynk -------------
+
+#include "BlynkSimpleEsp8266.h"
+const char* BlynkAuth        = SECRET_BLYNK_AUTH1;
 
 
 /* ------------- CONFIG VAR ------------------------------ */
 unsigned long looptime_Fast = 0;    // in secs
 unsigned long looptime_Mid1 = 2;    // in secs
 unsigned long looptime_Mid2 = 10;   // in secs
-unsigned long looptime_Slow       = 30;      // in secs
+unsigned long looptime_Slow       = 30;            // in secs
 unsigned long looptime_VerySlow   = 15 *(60);      // in secs
 
 // Only Enable if energy values stored at 00:00 have to be reset to current
@@ -92,11 +59,11 @@ bool ForceEnergyStart_Update = false;
 
 /* ------------- VAR ------------------------------ */
 const char* OTA_Password     = SECRET_Device_OTA_PASS; 
-const char* ssid             = SECRET_WIFI_SSID2;
-const char* pass             = SECRET_WIFI_PASS2;
+const char* ssid             = SECRET_WIFI_SSID3;
+const char* pass             = SECRET_WIFI_PASS3;
 const char* DeviceHostName   = SECRET_Device_Name1;
-const char* BlynkAuth        = SECRET_BLYNK_AUTH1;
-const char* MakerIFTTT_Key   = SECRET_MakerIFTTT_Key1;
+
+//const char* MakerIFTTT_Key   = SECRET_MakerIFTTT_Key1;    // Not used anymore
 
 float v1,v2,v3,v_avg;     
 float i1,i2,i3,i_sum;
@@ -121,7 +88,7 @@ PZEM004Tv30 EM_Ph2(Rx_Pin, Tx_Pin, Addr_Ph2);
 PZEM004Tv30 EM_Ph3(Rx_Pin, Tx_Pin, Addr_Ph3);  
 //(lcd_Addr,En,Rw,Rs,d4,d5,d6,d7,backlighPin,t_backlighPol)
 LiquidCrystal_I2C lcd(0x27,5,6,7,4,3,2,1,0,POSITIVE);
-WidgetTerminal terminal(V0);
+
 ESP8266WebServer server(80);
 
 //TODO: Optimize these structures

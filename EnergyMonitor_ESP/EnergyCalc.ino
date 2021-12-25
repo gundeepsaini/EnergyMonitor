@@ -121,7 +121,7 @@ void EM_DayEnergy_calc()
     {    
       MQTT_publish();
       Blynk_Graph_DataPush();
-      PIR_Reset_Flags();
+      //PIR_Reset_Flags();
 
       EnergyStartValues.e1_DayStart = e1;
       EnergyStartValues.e2_DayStart = e2;
@@ -203,7 +203,5 @@ void REC_Device_Capture()         // Future: for use with Data Analytics
   if(REC_Mode)
   {
     REC_Mode = 0;
-    terminal.println("WIP"); 
-    terminal.flush(); 
   }
 }

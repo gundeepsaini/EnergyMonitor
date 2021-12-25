@@ -66,8 +66,8 @@ void OTA_Check()
         lcd.clear();
         lcd.setCursor(0,0);
         lcd.print("Entering OTA");
-        terminal.println("Entering OTA Mode");  
-        terminal.flush(); 
+        //terminal.println("Entering OTA Mode");  
+        //terminal.flush(); 
        }
        
     if(millis()/1000 - lastrun_OTA > 10 * 60)
@@ -78,9 +78,8 @@ void OTA_Check()
         lcd.clear();
         lcd.setCursor(0,0);
         lcd.print("Exiting OTA"); 
-        terminal.println("Exiting OTA");  
-        terminal.flush();
+        //terminal.println("Exiting OTA");  
+        //terminal.flush();
        }
   }
 }
-
