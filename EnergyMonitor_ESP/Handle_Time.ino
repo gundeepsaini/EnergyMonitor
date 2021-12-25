@@ -54,7 +54,7 @@ void Time_NTP_Config()
   // install callback - called when settimeofday is called (by SNTP or us)
   // once enabled (by DHCP), SNTP is updated every hour
   settimeofday_cb(Time_NTP_Synced);
-  configTime(MYTZ, "pool.ntp.org");
+  configTime(MYTZ, NTP_Server_Address);
   
   Time_NTP_updateVar();
   if(!time_now.valid)
@@ -136,4 +136,3 @@ void Time_NTP_DisplayAdvanced()
   Serial.print("  |  Days since January 1 (0-365):"); 
   Serial.println(time_now.yearDay);
 }
-
