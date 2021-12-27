@@ -111,11 +111,15 @@ void EM_DayEnergy_calc()
  else
  {
 
-  bool timeValid = Time_NTP_updateVar();
+  bool timeValid = Time_NTP_isValid();
   if(timeValid)
-  {
-    int hourNow  = time_now.hr;  
-    int DayToday = time_now.day;
+  {    
+    int hourNow  = timeClient.getHours(); 
+
+    unsigned long epochTime = timeClient.getEpochTime();
+    struct tm *ptm = gmtime ((time_t *)&epochTime); 
+    int DayToday = ptm->tm_mday;
+    int currentMonth = ptm->tm_mon+1;
 
     if((hourNow == 0 && !E_Calc_Complete) || ForceEnergyStart_Update) 
     {    

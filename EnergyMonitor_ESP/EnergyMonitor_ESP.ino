@@ -177,7 +177,7 @@ void setup()
   lcd.print("Wifi");  
 
   Memory_Read();
-  Time_NTP_Config();
+  Config_Time();
   Blynk_Config();  
   WebServer_Config();
   OTA_Config();

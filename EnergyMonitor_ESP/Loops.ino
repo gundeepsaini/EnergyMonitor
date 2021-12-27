@@ -46,7 +46,10 @@ void Slow_Loop()
 
 void VerySlow_Loop()
 {
-   Blynk_Graph_DataPush();   
+   Blynk_Graph_DataPush();    
+
+   if(!Time_NTP_isValid())
+      Time_NTP_Update();  
 }
 
 
@@ -56,6 +59,9 @@ void RunOnce_30mins()
   if(millis()/1000 - lastrun_30mins > 30 * 60 || lastrun_30mins == 0)
   {
     lastrun_30mins = millis()/1000;
-        
+
+    Time_NTP_Update();        
   }
 }
+
+

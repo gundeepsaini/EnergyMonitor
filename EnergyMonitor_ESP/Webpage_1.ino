@@ -10,9 +10,7 @@
 void Prep_webpage1()
 {
 
-  time_t now1;  
-  time(&now1);
-  String timeStr = String(ctime(&now1));
+  String timeStr = timeClient.getFormattedTime();
 
     // !!! ELements that don't change !!!
   String page_head ="<!DOCTYPE html><html><head><style>td,th{ border: 1px solid #dddddd; text-align: left; padding: 8px;} tr:nth-child(even){background-color: #dddddd;}</style></head>";
@@ -57,7 +55,6 @@ void Prep_webpage1()
   String body_table_row31 =String("<tr><td>31</td><td>Frequency P2</td><td>")       + String(f2)          + String("</td><td>hz</td></tr>");
   String body_table_row32 =String("<tr><td>32</td><td>Frequency P3</td><td>")       + String(f3)          + String("</td><td>hz</td></tr>");
   String body_table_row33 =String("<tr><td>33</td><td>Motion PIR</td><td>")         + String(PIR_State)   + String("</td><td>-</td></tr>");
-  
   
 
   webpage1 = page_head +
