@@ -20,25 +20,25 @@ const char* mqtt_user       = SECRET_MQTT_User;
 const char* mqtt_password   = SECRET_MQTT_Pass;
 
 
-#define MQTT_CONFIG_Vavg      "homeassistant/sensor/EnergyMonitor/Vavg/config"
-#define MQTT_CONFIG_Isum      "homeassistant/sensor/EnergyMonitor/Isum/config"
-#define MQTT_CONFIG_Psum      "homeassistant/sensor/EnergyMonitor/Psum/config"
-#define MQTT_CONFIG_Etoday    "homeassistant/sensor/EnergyMonitor/Etoday/config"
-#define MQTT_CONFIG_Emonth    "homeassistant/sensor/EnergyMonitor/Emonth/config"
-#define MQTT_CONFIG_Etotal    "homeassistant/sensor/EnergyMonitor/Etotal/config"
-#define MQTT_CONFIG_PF        "homeassistant/sensor/EnergyMonitor/PF/config"
-#define MQTT_CONFIG_FREQ      "homeassistant/sensor/EnergyMonitor/FREQ/config"
-#define MQTT_CONFIG_PIR       "homeassistant/sensor/PIR/Lobby/config"
+#define MQTT_CONFIG_Vavg      "HA/EnergyMonitor/Vavg/config"
+#define MQTT_CONFIG_Isum      "HA/EnergyMonitor/Isum/config"
+#define MQTT_CONFIG_Psum      "HA/EnergyMonitor/Psum/config"
+#define MQTT_CONFIG_Etoday    "HA/EnergyMonitor/Etoday/config"
+#define MQTT_CONFIG_Emonth    "HA/EnergyMonitor/Emonth/config"
+#define MQTT_CONFIG_Etotal    "HA/EnergyMonitor/Etotal/config"
+#define MQTT_CONFIG_PF        "HA/EnergyMonitor/PF/config"
+#define MQTT_CONFIG_FREQ      "HA/EnergyMonitor/FREQ/config"
+#define MQTT_CONFIG_PIR       "HA/EnergyMonitor/PIR/config"
 
 
-#define MQTT_TOPIC_STATE             "HA/Lobby/Energy/state1"
-#define MQTT_TOPIC_STATE_DEEP_DIVE   "HA/Lobby/Energy/state2"   // old "homeassistant/Analytics/Power/state"
-#define MQTT_TOPIC_STATE_PIR         "HA/Lobby/PIR/state"
+#define MQTT_TOPIC_STATE             "HA/EnergyMonitor/Energy/state1"
+#define MQTT_TOPIC_STATE_DEEP_DIVE   "HA/EnergyMonitor/Energy/state2"   
+#define MQTT_TOPIC_STATE_PIR         "HA/EnergyMonitor/PIR/state"
 
 
 
 // Will Topic - Availability
-#define MQTT_TOPIC_WILL       "HA/Lobby/status"     
+#define MQTT_TOPIC_WILL       "HA/EnergyMonitor/status"     
 #define MQTT_OFFLINE          "Offline"
 #define MQTT_ONLINE           "Active"
 
@@ -47,7 +47,7 @@ const char* mqtt_password   = SECRET_MQTT_Pass;
 
 void MQTT_config()
 {
-	client.setServer(mqtt_server, 1883);
+	client.setServer(mqtt_server, SECRET_MQTT_Port);
  	client.setCallback(MQTT_MessageRecd_callback);
 }
 
