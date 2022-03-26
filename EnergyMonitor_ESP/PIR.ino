@@ -13,6 +13,7 @@ long PIR_check_tmr = 0;
 void PIR_Check()
 {
   PIR_State = digitalRead(PIR_Pin);
+
   
   if(PIR_State == 1 && PIR_check_tmr == 0)
   {
@@ -28,7 +29,7 @@ void PIR_Check()
   if(PIR_State == 1)
   {
     // PIR has given on signal for atleast 500ms. Only send trigger for the first 5 sec of motion. 
-    if (millis() - PIR_check_tmr > 500 && millis() - PIR_check_tmr < 5000 )  
+    if (millis() - PIR_check_tmr > 500 ) //&& millis() - PIR_check_tmr < 5000 )  
          LCD_backlight_ON();                  
    
     if(MQTT_PIR_send_again_check(PIR_State))

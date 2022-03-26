@@ -1,40 +1,93 @@
 
 
+bool EM_Data_Integrity_test(float val)
+{
+  if(!isnan(val))
+  {
+    // consider it a valid number
+    if (val > -100.0 && val < 99999.0)
+      return true;
+  }
+  return false;
+}
+
+
+
+
 void FetchEMData()
 {
-  v1  = EM_Ph1.voltage();
-  i1  = EM_Ph1.current();
-  p1  = EM_Ph1.power();
-  e1  = EM_Ph1.energy();
-  pf1 = EM_Ph1.pf();
-  f1  = EM_Ph1.frequency();
+  
+  float temp = 0;
+  
+  temp = EM_Ph1.voltage();
+  if(EM_Data_Integrity_test(temp))
+    v1  = temp;  
+  temp = EM_Ph1.current();
+  if(EM_Data_Integrity_test(temp))
+    i1  = temp;  
+  temp = EM_Ph1.power();
+  if(EM_Data_Integrity_test(temp))
+    p1  = temp;
+  temp = EM_Ph1.energy();
+  if(EM_Data_Integrity_test(temp))
+    e1  = temp;
+  temp = EM_Ph1.pf();
+  if(EM_Data_Integrity_test(temp))
+    pf1  = temp;
+  temp = EM_Ph1.frequency();
+  if(EM_Data_Integrity_test(temp))
+    f1  = temp;
 
-  if(isnan(v1))
+  if(isnan(temp))
     EM_Ph1_Error = 1;
   else
     EM_Ph1_Error = 0;
     
 
-  v2  = EM_Ph2.voltage();
-  i2  = EM_Ph2.current();
-  p2  = EM_Ph2.power();
-  e2  = EM_Ph2.energy();
-  pf2 = EM_Ph2.pf();
-  f2  = EM_Ph2.frequency();
+  temp = EM_Ph2.voltage();
+  if(EM_Data_Integrity_test(temp))
+    v2  = temp;  
+  temp = EM_Ph2.current();
+  if(EM_Data_Integrity_test(temp))
+    i2  = temp;  
+  temp = EM_Ph2.power();
+  if(EM_Data_Integrity_test(temp))
+    p2  = temp;
+  temp = EM_Ph2.energy();
+  if(EM_Data_Integrity_test(temp))
+    e2  = temp;
+  temp = EM_Ph2.pf();
+  if(EM_Data_Integrity_test(temp))
+    pf2  = temp;
+  temp = EM_Ph2.frequency();
+  if(EM_Data_Integrity_test(temp))
+    f2  = temp;
 
-  if(isnan(v2))
+  if(isnan(temp))
     EM_Ph2_Error = 1;
   else
     EM_Ph2_Error = 0;
     
-  v3  = EM_Ph3.voltage();
-  i3  = EM_Ph3.current();
-  p3  = EM_Ph3.power();
-  e3  = EM_Ph3.energy();
-  pf3 = EM_Ph3.pf();
-  f3  = EM_Ph3.frequency();
+  temp = EM_Ph3.voltage();
+  if(EM_Data_Integrity_test(temp))
+    v3  = temp;  
+  temp = EM_Ph3.current();
+  if(EM_Data_Integrity_test(temp))
+    i3  = temp;  
+  temp = EM_Ph3.power();
+  if(EM_Data_Integrity_test(temp))
+    p3  = temp;
+  temp = EM_Ph3.energy();
+  if(EM_Data_Integrity_test(temp))
+    e3  = temp;
+  temp = EM_Ph3.pf();
+  if(EM_Data_Integrity_test(temp))
+    pf3  = temp;
+  temp = EM_Ph3.frequency();
+  if(EM_Data_Integrity_test(temp))
+    f3  = temp;
 
-  if(isnan(v3))
+  if(isnan(temp))
     EM_Ph3_Error = 1;
   else
     EM_Ph3_Error = 0;
@@ -104,6 +157,7 @@ void EM_Data_Calc()
 
 
 
+
 void EM_DayEnergy_calc()
 {
  if(EM_Ph1_Error && EM_Ph2_Error && EM_Ph3_Error)
@@ -117,9 +171,10 @@ void EM_DayEnergy_calc()
     int hourNow  = timeClient.getHours(); 
 
     unsigned long epochTime = timeClient.getEpochTime();
-    struct tm *ptm = gmtime ((time_t *)&epochTime); 
-    int DayToday = ptm->tm_mday;
-    int currentMonth = ptm->tm_mon+1;
+    int DayToday = day(epochTime) ;
+    int currentMonth = month(epochTime);
+    int currentYear = year(epochTime);
+
 
     if((hourNow == 0 && !E_Calc_Complete) || ForceEnergyStart_Update) 
     {    

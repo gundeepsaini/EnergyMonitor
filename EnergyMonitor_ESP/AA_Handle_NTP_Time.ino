@@ -3,6 +3,7 @@
 
 #include <WiFiUdp.h>
 #include "src/NTPClient/NTPClient.h"
+#include <TimeLib.h>
 
 
 WiFiUDP ntpUDP;
@@ -45,6 +46,12 @@ bool Time_NTP_isValid()
 void Time_print_current_date_time() 
 {
   unsigned long epochTime = timeClient.getEpochTime();
+
+  int DayToday1 = day(epochTime) ;
+  int currentMonth1 = month(epochTime);
+  int currentYear1 = year(epochTime);
+
+
   Serial.print("Epoch Time: ");
   Serial.println(epochTime);
   

@@ -7,6 +7,7 @@ void WebServer_Config()
   server.on("/webpage1",Webpage_Home1);
   server.on("/OTA",Webpage_OTA);  
   server.on("/restart",Webpage_restart);
+  server.on("/force",once_ForceEnergyStart_Update);
 
   server.begin();  
 }
@@ -40,4 +41,14 @@ void Webpage_restart()
   ESP.restart();
   delay(1000);
   while(1);
+}
+
+
+void once_ForceEnergyStart_Update()
+{
+  ForceEnergyStart_Update =1;
+  EM_DayEnergy_calc();
+  ForceEnergyStart_Update =0;
+
+  server.send(200,"text/plain","Energy values reset, check the web server");
 }
