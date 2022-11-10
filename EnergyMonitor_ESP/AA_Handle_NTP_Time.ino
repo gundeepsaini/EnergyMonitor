@@ -19,7 +19,7 @@ void Config_Time()
   //setenv("TZ",TimeZone, 1);
   //tzet();
 
-  timeClient.setTimeOffset(2 * 60 * 60);   // Timezone: 1 * 3600 = GMT+1
+  timeClient.setTimeOffset(1 * 60 * 60);   // Timezone: 1 * 3600 = GMT+1
   timeClient.update();
 
 }
