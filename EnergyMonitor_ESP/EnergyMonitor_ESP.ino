@@ -179,7 +179,7 @@ void setup()
 
   Memory_Read();
   Config_Time();
-  Blynk_Config();  
+  //Blynk_Config();  
   WebServer_Config();
   OTA_Config();
   PIR_Config();
