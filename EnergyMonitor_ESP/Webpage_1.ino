@@ -9,23 +9,27 @@
 void Prep_webpage1()
 {
 
-  String timeStr = timeClient.getFormattedTime();
-
-  unsigned long epochTime = timeClient.getEpochTime();
-  struct tm *ptm = gmtime ((time_t *)&epochTime); 
-  int DayToday = ptm->tm_mday;
-  int currentMonth = ptm->tm_mon+1;
-  int currentYear = ptm->tm_year+1900;
-  
-  int DayToday1 = day(epochTime) ;
-  int currentMonth1 = month(epochTime);
-  int currentYear1 = year(epochTime);
+  // Get time
+  String timeStr;
+  struct tm timeinfo;
+  getLocalTime(&timeinfo);
+  // Convert to HH:MM:SS
+  char locTime[11];
+  sprintf(locTime, " %02d:%02d:%02d ", timeinfo.tm_hour, timeinfo.tm_min, timeinfo.tm_sec);
+  char locdate[11];
+  sprintf(locdate, " %d.%02d.%02d ", timeinfo.tm_year-100, timeinfo.tm_mon+1, timeinfo.tm_mday);
+  timeStr = String(locdate) + String(locTime);
+      int hourNow  = timeinfo.tm_hour;
+    int minsNow = timeinfo.tm_min;     
+    int DayToday = timeinfo.tm_mday;
+    int currentMonth = timeinfo.tm_mon+1;
+    int currentYear = timeinfo.tm_year-100;    
   
 
     // !!! ELements that don't change !!!
   String page_head ="<!DOCTYPE html><html><head><style>td,th{ border: 1px solid #dddddd; text-align: left; padding: 8px;} tr:nth-child(even){background-color: #dddddd;}</style></head>";
   String body_start = "<body>";
-  String body_table_start = String("<h2>") + DeviceHostName + String("</h2><h4>Updated: ") + String(timeStr) + String("</h4><table>");
+  String body_table_start = String("<h2>") + DeviceHostName + String("</h2><h4>Updated: ") + String(timeStr) + String("</h4><table>");  
   String body_table_row00 ="<tr><th>#</th><th>Description</th><th>Value</th><th>Unit</th></tr>";
   String body_end = "</table></body></html>";
 
@@ -66,7 +70,7 @@ void Prep_webpage1()
   String body_table_row32 =String("<tr><td>32</td><td>Frequency P3</td><td>")       + String(f3)          + String("</td><td>hz</td></tr>");
   String body_table_row33 =String("<tr><td>33</td><td>Motion PIR</td><td>")         + String(PIR_State)   + String("</td><td>-</td></tr>");
   String body_table_row34 =String("<tr><td>34</td><td>Date</td><td>")        + String(currentYear) + "." + String(currentMonth) + "." + String(DayToday)   + String("</td><td>-</td></tr>");
-  String body_table_row35 =String("<tr><td>35</td><td>Date</td><td>")        + String(currentYear1) + "." + String(currentMonth1) + "." + String(DayToday1)   + String("</td><td>-</td></tr>");
+  //String body_table_row35 =String("<tr><td>35</td><td>Date</td><td>")        + String(currentYear1) + "." + String(currentMonth1) + "." + String(DayToday1)   + String("</td><td>-</td></tr>");
     
 
   webpage1 = page_head +
@@ -107,7 +111,7 @@ void Prep_webpage1()
   			 body_table_row32 +
          body_table_row33 +
          body_table_row34 +
-         body_table_row35 +
+         //body_table_row35 +
   			 body_end; 
          
 }

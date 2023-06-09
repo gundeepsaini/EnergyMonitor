@@ -33,11 +33,6 @@ Note:
 #include "src/LiquidCrystal/LiquidCrystal_I2C.h"
 
 
-// ------------- Blynk -------------
-
-#include "BlynkSimpleEsp8266.h"
-const char* BlynkAuth        = SECRET_BLYNK_AUTH1;
-
 
 /* ------------- CONFIG VAR ------------------------------ */
 unsigned long looptime_Fast = 0;    // in secs

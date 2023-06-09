@@ -94,7 +94,7 @@ void FetchEMData()
 }
 
 
-
+/*
 void Serial_Print_EMData()
 {
   Serial.println("EM Data:");
@@ -142,13 +142,16 @@ void Serial_Print_EMData()
   }
 }
 
-
+*/
 void EM_Data_Calc()
 {
   v_avg  = (v1+v2+v3)/3;
   i_sum  = (i1+i2+i3);
   p_sum  = (p1+p2+p3);
-  pf_avg = p_sum / (v_avg*i_sum);
+  if(v_avg==0 && i_sum==0)
+    pf_avg = 0;
+  else
+    pf_avg = p_sum / (v_avg*i_sum);
   f_avg  = (f1+f2+f3)/3;
   e_sum_Today  = (Energy.e1_Today+Energy.e2_Today+Energy.e3_Today);
   e_sum_ThisMonth  = (Energy.e1_ThisMonth+Energy.e2_ThisMonth+Energy.e3_ThisMonth);  
@@ -167,19 +170,23 @@ void EM_DayEnergy_calc()
 
   bool timeValid = Time_NTP_isValid();
   if(timeValid)
-  {    
-    int hourNow  = timeClient.getHours(); 
+  {        
+    // Get time
+    String timeStr;
+    struct tm timeinfo;
+    getLocalTime(&timeinfo);
 
-    unsigned long epochTime = timeClient.getEpochTime();
-    int DayToday = day(epochTime) ;
-    int currentMonth = month(epochTime);
-    int currentYear = year(epochTime);
+    int hourNow  = timeinfo.tm_hour;
+    int minsNow = timeinfo.tm_min;     
+    int DayToday = timeinfo.tm_mday;
+    int currentMonth = timeinfo.tm_mon+1;
+    int currentYear = timeinfo.tm_year-100;
 
 
     if((hourNow == 0 && !E_Calc_Complete) || ForceEnergyStart_Update) 
     {    
       MQTT_publish();
-      Blynk_Graph_DataPush();
+      //Blynk_Graph_DataPush();
       //PIR_Reset_Flags();
 
       EnergyStartValues.e1_DayStart = e1;

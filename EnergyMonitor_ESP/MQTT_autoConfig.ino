@@ -34,6 +34,9 @@ const char* mqtt_password   = SECRET_MQTT_Pass;
 #define MQTT_TOPIC_STATE             "HA/EnergyMonitor/Energy/state1"
 #define MQTT_TOPIC_STATE_DEEP_DIVE   "HA/EnergyMonitor/Energy/state2"   
 #define MQTT_TOPIC_STATE_PIR         "HA/EnergyMonitor/PIR/state"
+#define MQTT_TOPIC_STATE_E1          "HA/EnergyMonitor/Energy1"
+#define MQTT_TOPIC_STATE_E2          "HA/EnergyMonitor/Energy2"
+#define MQTT_TOPIC_STATE_E3          "HA/EnergyMonitor/Energy3"
 
 
 
@@ -81,7 +84,8 @@ void MQTT_publish()
       client.publish(MQTT_TOPIC_STATE, data, true);
       Serial.println(data);
 
-      MQTT_publish_Deep_Dive();
+      MQTT_publish_Deep_Dive_1();
+      MQTT_publish_Deep_Dive_2();
 }
 
 
@@ -331,7 +335,7 @@ void MQTT_PIR_heartbeat()
 //-------------------- Device Analytics -----------------------------
 
 
-void MQTT_publish_Deep_Dive()
+void MQTT_publish_Deep_Dive_1()
 {   
       // Use arduinojson.org/v6/assistant to compute the capacity.
       const size_t capacity = JSON_OBJECT_SIZE(10);
@@ -348,4 +352,27 @@ void MQTT_publish_Deep_Dive()
       serializeJson(doc, data, sizeof(data));
       client.publish(MQTT_TOPIC_STATE_DEEP_DIVE, data, true);
       Serial.println(data);
+}
+
+
+void MQTT_publish_Deep_Dive_2()
+{     
+  int energy1 = int(e1);
+  char data1[10];
+  itoa(energy1, data1, 10);
+  client.publish(MQTT_TOPIC_STATE_E1, data1, true);
+  Serial.println(data1);
+
+  int energy2 = int(e2);
+  char data2[10];
+  itoa(energy2, data2, 10);
+  client.publish(MQTT_TOPIC_STATE_E2, data2, true);
+  Serial.println(data2);
+
+  int energy3 = int(e3);
+  char data3[10];
+  itoa(energy3, data3, 10);
+  client.publish(MQTT_TOPIC_STATE_E3, data3, true);
+  Serial.println(data3);
+
 }
